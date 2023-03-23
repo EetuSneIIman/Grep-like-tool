@@ -24,9 +24,10 @@ void searchFileForPattern(string fileName, string pattern, int type)
     int lineNum = 1;
     int containingLines = 0;
 
-    // Jos ei mitään tyyppiä / tyyppi 0(vain 3 argumenttia)
-    if (type == 0)
+    switch (type)
     {
+    // jos tyyppi on 0, tehdään case 0
+    case 0:
         while (getline(fileStream, line))
         {
             // haetaan rivejä sisällöllä tiedostosta loopin sisällä ja tulostetaan löydetyt rivit
@@ -35,11 +36,10 @@ void searchFileForPattern(string fileName, string pattern, int type)
                 cout << line << endl;
             }
         }
-    }
+        break;
 
-    // Jos tyyppi on -olo / tyyppi 1
-    if (type == 1)
-    {
+    // jos tyyppi on 1, tehdään case 1
+    case 1:
         while (getline(fileStream, line))
         {
             if (regex_search(line, regex(pattern)))
@@ -52,11 +52,10 @@ void searchFileForPattern(string fileName, string pattern, int type)
         }
         // tulostetaan kuinka monta riviä löydettiin halutulla sisällöllä
         cout << "Occurences of lines containing \"" << pattern << "\": " << containingLines << endl;
-    }
+        break;
 
-    // Jos tyyppi on -o / tyyppi 2
-    else if (type == 2)
-    {
+    // jos tyyppi on 2, tehdään case 2
+    case 2:
         while (getline(fileStream, line))
         {
             if (regex_search(line, regex(pattern)))
@@ -66,11 +65,10 @@ void searchFileForPattern(string fileName, string pattern, int type)
             }
             lineNum++;
         }
-    }
+        break;
 
-    // Jos tyyppi on -ol / tyyppi 3
-    else if (type == 3)
-    {
+    // jos tyyppi on 3, tehdään case 3
+    case 3:
         while (getline(fileStream, line))
         {
             if (regex_search(line, regex(pattern)))
@@ -80,11 +78,10 @@ void searchFileForPattern(string fileName, string pattern, int type)
             }
             lineNum++;
         }
-    }
+        break;
 
-    // Jos tyyppi on -oo / tyyppi 4
-    else if (type == 4)
-    {
+    // jos tyyppi on 4, tehdään case 4
+    case 4:
         while (getline(fileStream, line))
         {
             if (regex_search(line, regex(pattern)))
@@ -96,11 +93,10 @@ void searchFileForPattern(string fileName, string pattern, int type)
         }
         // tulostetaan haettujen rivien määrä
         cout << "Occurences of lines containing \"" << pattern << "\": " << containingLines << endl;
-    }
+        break;
 
-    // Jos tyyppi on -or / tyyppi 5
-    else if (type == 5)
-    {
+    // jos tyyppi on 5, tehdään case 5
+    case 5:
         while (getline(fileStream, line))
         {
             if (!regex_search(line, regex(pattern)))
@@ -110,11 +106,10 @@ void searchFileForPattern(string fileName, string pattern, int type)
             }
             lineNum++;
         }
-    }
+        break;
 
-    // Jos tyyppi on -oi / tyyppi 6
-    else if (type == 6)
-    {
+    // jos tyyppi on 6, tehdään case 6
+    case 6:
         while (getline(fileStream, line))
         {
             if (regex_search(line, regex(pattern, regex_constants::icase)))
@@ -124,11 +119,11 @@ void searchFileForPattern(string fileName, string pattern, int type)
             }
             lineNum++;
         }
-    }
+        break;
 
-    // Jos tyyppi on -olori / tyyppi 7
-    else if (type == 7)
-    {
+    // jos tyyppi on 7, tehdään case 7
+    case 7:
+
         while (getline(fileStream, line))
         {
             // haetaan kaikki jotka eivät sisällä haettua sisältöä
@@ -144,6 +139,7 @@ void searchFileForPattern(string fileName, string pattern, int type)
 
         // tulostetaan rivien määrä jotka eivät sisältäneet haettua sisältöä
         cout << "Occurences of lines NOT containing \"" << pattern << "\": " << containingLines << endl;
+        break;
     }
 
     // suljetaan tiedosto
@@ -177,28 +173,31 @@ void searchFromString(string from, string search)
 
 int main(int argc, char *argv[])
 {
-    // jos komentoriviargumenttien määrä on 1, käytetään ensimmäisen inkrementin funktiota
-    if (argc == 1)
+    switch (argc == 1)
     {
+
+    // jos komentoriviargumenttien määrä on 1, käytetään ensimmäisen inkrementin funktiota
+    case 1:
+
         string from;
         string search;
 
         searchFromString(from, search);
-    }
 
-    // jos komentoriviargumenttien määrä on 3, käytetään funktiota tyypillä 0
-    else if (argc == 3)
-    {
-        // File name and pattern provided
+        break;
+
+        // jos komentoriviargumenttien määrä on 3, käytetään funktiota tyypillä 0
+    case 3:
+
         string fileName = argv[2];
         string pattern = argv[1];
         int type = 0;
         searchFileForPattern(fileName, pattern, type);
-    }
 
-    // jos komentoriviargumenttien määrä on 4
-    else if (argc == 4)
-    {
+        break;
+
+    case 4:
+
         // käytetään funktiota tyypillä 1
         if (strcmp(argv[1], "-olo") == 0)
         {
@@ -270,6 +269,8 @@ int main(int argc, char *argv[])
             cerr << "Types: -o , -oo, -ol, -olo, -or, -oi, -olori" << endl;
             return 1;
         }
+
+        break;
     }
 
     else
